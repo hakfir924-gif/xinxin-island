@@ -25,6 +25,54 @@
     h1 { margin: 0; color: #59415f; font-size: 32px; line-height: 1.14; letter-spacing: 0; }
     .subtitle { margin: 9px 0 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
     .card { margin-top: 12px; padding: 15px; border: 1px solid var(--line); border-radius: 22px; background: var(--card); box-shadow: 0 12px 30px rgba(169,104,98,.12); }
+    .island-card { padding: 12px; overflow: hidden; background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,247,239,.76)); }
+    .island-scene { position: relative; height: 286px; border-radius: 24px; overflow: hidden; background: linear-gradient(180deg,#ffe1ef 0%,#fff1c9 48%,#bdeaff 100%); border: 1px solid rgba(255,255,255,.7); }
+    .island-scene::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 22% 18%, rgba(255,255,255,.7), transparent 12%), radial-gradient(circle at 82% 18%, rgba(255,255,255,.45), transparent 18%); pointer-events: none; }
+    .sun { position:absolute; width:54px; height:54px; left:30px; top:28px; border-radius:50%; background:#ffe27a; box-shadow:0 0 28px rgba(255,210,90,.72); animation: glow 3s ease-in-out infinite; }
+    .rainbow { position:absolute; width:150px; height:74px; right:22px; top:34px; border-radius:100px 100px 0 0; border:10px solid transparent; border-top-color:#ff88a8; box-shadow:0 -10px 0 -3px #ffd36c, 0 -20px 0 -8px #8fd9c0, 0 -30px 0 -13px #99c2f5; opacity:0; transform:translateY(10px); transition:.4s ease; }
+    .cloud { position:absolute; width:76px; height:30px; top:42px; border-radius:999px; background:rgba(255,255,255,.76); filter:drop-shadow(0 6px 10px rgba(126,95,105,.12)); animation: drift 6s ease-in-out infinite; }
+    .cloud::before,.cloud::after { content:""; position:absolute; border-radius:50%; background:inherit; }
+    .cloud::before { width:34px; height:34px; left:12px; top:-16px; }
+    .cloud::after { width:42px; height:42px; right:10px; top:-22px; }
+    .cloud.one { left:118px; }
+    .cloud.two { right:24px; top:72px; animation-delay:-2s; opacity:.78; }
+    .rain { position:absolute; inset:0; opacity:0; pointer-events:none; background-image:linear-gradient(110deg, transparent 0 44%, rgba(119,146,184,.35) 45% 48%, transparent 49%); background-size:18px 34px; animation: rain 1s linear infinite; }
+    .sea { position:absolute; left:0; right:0; bottom:0; height:112px; background:linear-gradient(180deg,#8fdaf2,#6ec6e8); }
+    .sea::before,.sea::after { content:""; position:absolute; left:-30px; right:-30px; height:28px; border-radius:50%; background:rgba(255,255,255,.34); animation: wave 3.8s ease-in-out infinite; }
+    .sea::before { top:18px; } .sea::after { top:48px; animation-delay:-1.4s; opacity:.6; }
+    .sparkles { position:absolute; left:46px; right:46px; bottom:58px; height:28px; opacity:0; background:radial-gradient(circle,#fff 0 18%,transparent 21%) 0 0/32px 16px; animation: twinkle 1.8s ease-in-out infinite; }
+    .land { position:absolute; left:50%; bottom:62px; width:224px; height:78px; transform:translateX(-50%); border-radius:52% 48% 42% 44%; background:linear-gradient(180deg,#9be0ac,#5fbf8c); box-shadow:0 14px 0 #d9b277, 0 22px 22px rgba(91,122,124,.18); }
+    .hill { position:absolute; left:54px; bottom:114px; width:92px; height:52px; border-radius:80px 80px 8px 8px; background:linear-gradient(180deg,#aef0bf,#76ce98); }
+    .flowers { position:absolute; left:74px; bottom:125px; font-size:19px; opacity:.35; transform:scale(.8); transition:.4s ease; }
+    .tree,.swing,.lighthouse,.observatory,.cabin { position:absolute; opacity:0; transform:translateY(8px); transition:.35s ease; }
+    .tree { left:72px; bottom:141px; font-size:40px; }
+    .swing { right:80px; bottom:135px; font-size:36px; }
+    .lighthouse { right:52px; bottom:124px; font-size:48px; filter:drop-shadow(0 0 0 rgba(255,235,150,0)); }
+    .observatory { left:44px; bottom:126px; font-size:38px; }
+    .cabin { left:132px; bottom:133px; font-size:42px; }
+    .otter-home { position:absolute; left:50%; bottom:118px; transform:translateX(-50%); font-size:52px; filter:drop-shadow(0 9px 10px rgba(99,75,70,.16)); animation: otterFloat 2.4s ease-in-out infinite; }
+    .envelope { position:absolute; left:50%; bottom:155px; transform:translateX(22px) rotate(8deg); font-size:24px; opacity:0; transition:.35s ease; }
+    .island-copy { margin:10px 4px 0; text-align:center; color:#71515b; font-size:15px; font-weight:900; line-height:1.45; }
+    .growth-tags { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:8px; }
+    .growth-tags span { padding:4px 8px; border-radius:999px; background:rgba(255,255,255,.72); color:#8b6962; font-size:11px; font-weight:800; }
+    .sunny .rainbow,.sunny .sparkles { opacity:1; transform:translateY(0); }
+    .sunny .flowers { opacity:1; transform:scale(1); }
+    .mixed .sun { opacity:.75; }
+    .mixed .cloud.two { opacity:1; }
+    .mixed .envelope { opacity:1; }
+    .rainy .island-scene { background:linear-gradient(180deg,#cfc8e8 0%,#e8dcec 48%,#9fc8dc 100%); }
+    .rainy .sun,.rainy .rainbow { opacity:0; }
+    .rainy .rain { opacity:1; }
+    .rainy .cloud { opacity:.95; background:rgba(236,235,244,.86); }
+    .rainy .sea { background:linear-gradient(180deg,#83bfd8,#6aa7c4); }
+    .rainy .lighthouse { opacity:1; transform:translateY(0); filter:drop-shadow(0 0 14px rgba(255,237,150,.88)); }
+    .show-tree .tree,.show-swing .swing,.show-lighthouse .lighthouse,.show-observatory .observatory,.show-cabin .cabin { opacity:1; transform:translateY(0); }
+    @keyframes glow { 50% { transform:scale(1.06); box-shadow:0 0 38px rgba(255,210,90,.9); } }
+    @keyframes drift { 50% { transform:translateX(12px); } }
+    @keyframes rain { to { background-position: 0 34px; } }
+    @keyframes wave { 50% { transform:translateX(28px); } }
+    @keyframes twinkle { 50% { opacity:.35; } }
+    @keyframes otterFloat { 50% { transform:translateX(-50%) translateY(-8px) scale(1.04); } }
     .days { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: linear-gradient(135deg, rgba(255,246,223,.92), rgba(230,246,255,.88)); }
     .tiny { color: var(--muted); font-size: 12px; font-weight: 700; }
     strong { color: #6a4b57; }
@@ -53,6 +101,30 @@
       <div>🌌</div>
     </section>
 
+    <section class="card island-card" id="islandCard">
+      <div class="island-scene">
+        <div class="sun"></div>
+        <div class="rainbow"></div>
+        <div class="cloud one"></div>
+        <div class="cloud two"></div>
+        <div class="rain"></div>
+        <div class="sea"></div>
+        <div class="sparkles"></div>
+        <div class="hill"></div>
+        <div class="land"></div>
+        <div class="flowers">🌸🌼🌷</div>
+        <div class="tree">🌳</div>
+        <div class="swing">🎐</div>
+        <div class="lighthouse">🗼</div>
+        <div class="observatory">🔭</div>
+        <div class="cabin">🏡</div>
+        <div class="otter-home" id="homeOtter">🦦</div>
+        <div class="envelope">💌</div>
+      </div>
+      <p class="island-copy" id="islandMoodText">今天的小岛正在等你们的状态。</p>
+      <div class="growth-tags" id="growthTags"></div>
+    </section>
+
     <section class="card">
       <div class="tiny">双方今日状态摘要</div>
       <div class="status-grid" style="margin-top:10px">
@@ -76,7 +148,7 @@
   </nav>
 
   <script>
-    const keys = { created: "v3_islandCreatedAt", statuses: "v3_statuses", timeline: "v3_timeline" };
+    const keys = { created: "v3_islandCreatedAt", statuses: "v3_statuses", timeline: "v3_timeline", loginDate: "v3_loginLastDate", loginStreak: "v3_loginStreak", islandGrowth: "v3_islandGrowth" };
     function todayKey(date = new Date()) {
       const y = date.getFullYear(), m = String(date.getMonth() + 1).padStart(2, "0"), d = String(date.getDate()).padStart(2, "0");
       return `${y}-${m}-${d}`;
@@ -91,12 +163,77 @@
       localStorage.setItem(keys.created, todayKey());
       localStorage.setItem(keys.timeline, JSON.stringify([{ title: "🌙 小岛创建", text: "双人小岛悄悄亮起来了。", time: formatTime(), id: Date.now() }]));
     }
+    function updateLoginStreak() {
+      const last = localStorage.getItem(keys.loginDate);
+      let streak = Number(localStorage.getItem(keys.loginStreak) || 0);
+      const today = todayKey();
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      if (last === today) return Math.max(1, streak);
+      streak = last === todayKey(yesterday) ? streak + 1 : 1;
+      localStorage.setItem(keys.loginDate, today);
+      localStorage.setItem(keys.loginStreak, String(streak));
+      localStorage.setItem(keys.islandGrowth, JSON.stringify(getGrowth(streak)));
+      return streak;
+    }
+    function getGrowth(streak) {
+      return {
+        tree: streak >= 7,
+        swing: streak >= 15,
+        lighthouse: streak >= 30,
+        observatory: streak >= 60,
+        cabin: streak >= 100
+      };
+    }
+    function moodKind(status) {
+      if (!status) return "none";
+      if (status.includes("超开心") || status.includes("开心") || status.includes("状态很好")) return "good";
+      if (status.includes("有点累") || status.includes("很难过") || status.includes("低落")) return "low";
+      return "neutral";
+    }
+    function renderIsland(statuses, streak) {
+      const xx = statuses["鑫鑫"]?.date === todayKey() ? statuses["鑫鑫"].status : "";
+      const xb = statuses["兴波"]?.date === todayKey() ? statuses["兴波"].status : "";
+      const moods = [moodKind(xx), moodKind(xb)];
+      const card = document.getElementById("islandCard");
+      const text = document.getElementById("islandMoodText");
+      const growth = getGrowth(streak);
+      let scene = "mixed";
+      let copy = "今天的小岛正在等你们的状态。";
+      if (moods.every((m) => m === "good")) {
+        scene = "sunny";
+        copy = "今天的小岛充满阳光。";
+      } else if (moods.every((m) => m === "low")) {
+        scene = "rainy";
+        copy = "今晚的小岛为你们留着灯。";
+      } else if (moods.includes("low") && moods.includes("good")) {
+        scene = "mixed";
+        copy = "今天有人需要一点陪伴。";
+      } else if (moods.includes("low")) {
+        scene = "rainy";
+        copy = "今晚的小岛为你们留着灯。";
+      } else if (moods.includes("good")) {
+        scene = "sunny";
+        copy = "今天的小岛充满阳光。";
+      }
+      card.className = `card island-card ${scene} ${growth.tree ? "show-tree" : ""} ${growth.swing ? "show-swing" : ""} ${growth.lighthouse ? "show-lighthouse" : ""} ${growth.observatory ? "show-observatory" : ""} ${growth.cabin ? "show-cabin" : ""}`;
+      text.textContent = copy;
+      document.getElementById("growthTags").innerHTML = [
+        growth.tree && "小树",
+        growth.swing && "秋千",
+        growth.lighthouse && "灯塔",
+        growth.observatory && "星空观测台",
+        growth.cabin && "双人木屋"
+      ].filter(Boolean).map((item) => `<span>${item}</span>`).join("");
+    }
+    const streak = updateLoginStreak();
     const created = localStorage.getItem(keys.created);
     const days = Math.floor((new Date(`${todayKey()}T00:00:00`) - new Date(`${created}T00:00:00`)) / 86400000) + 1;
     document.getElementById("islandDays").textContent = `我们的小岛已经存在 ${Math.max(1, days)} 天`;
     const statuses = getJson(keys.statuses, {});
     document.getElementById("xinxinStatus").textContent = `今日状态：${statuses["鑫鑫"]?.date === todayKey() ? statuses["鑫鑫"].status : "未选择"}`;
     document.getElementById("xingboStatus").textContent = `今日状态：${statuses["兴波"]?.date === todayKey() ? statuses["兴波"].status : "未选择"}`;
+    renderIsland(statuses, streak);
   </script>
 </body>
 </html>
