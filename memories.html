@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>回忆成长</title>
+  <style>
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}:root{--ink:#60443f;--muted:#96736b;--rose:#ff91a8;--peach:#ffb77d;--mint:#95d9c1;--sky:#91bdf2;--card:rgba(255,255,255,.86);--line:rgba(255,201,171,.56);--shadow:0 18px 45px rgba(142,83,88,.2)}body{min-height:100vh;min-height:100svh;margin:0;display:flex;justify-content:center;padding:max(16px,env(safe-area-inset-top)) 13px max(76px,env(safe-area-inset-bottom));color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:radial-gradient(circle at 18% 8%,rgba(255,230,170,.72),transparent 24%),radial-gradient(circle at 86% 16%,rgba(145,189,242,.42),transparent 28%),linear-gradient(160deg,#ffe3dc 0%,#fff7df 42%,#dff4ff 100%);overflow-x:hidden}.app{width:min(100%,410px);padding:21px 15px 18px;border:1px solid rgba(255,255,255,.75);border-radius:28px;background:rgba(255,255,255,.72);box-shadow:var(--shadow);backdrop-filter:blur(18px)}header{text-align:center;padding:8px 6px 13px}h1{margin:0;color:#59415f;font-size:30px;letter-spacing:0}.subtitle{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.5}.card{margin-top:11px;padding:14px;border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:0 12px 30px rgba(169,104,98,.12)}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;color:#6d4e49;font-size:15px;font-weight:900}.tiny{color:var(--muted);font-size:12px;font-weight:700}.progress-row{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#80615a;font-size:12px;font-weight:900}.progress-track{height:11px;margin-top:7px;border-radius:999px;border:1px solid rgba(255,191,153,.44);background:rgba(255,221,194,.7);overflow:hidden}.progress-fill{width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff91a8,#ffc874,#95d9c1,#91bdf2);transition:width .42s ease}.form{display:grid;gap:8px}input,select,textarea{width:100%;border:1px solid rgba(255,196,165,.68);border-radius:15px;padding:11px 12px;color:var(--ink);background:rgba(255,255,255,.78);font:inherit;outline:none}textarea{min-height:68px;resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}button{border:0;border-radius:999px;color:#fff;font-family:inherit;font-weight:900;letter-spacing:0;appearance:none;-webkit-appearance:none;touch-action:manipulation;cursor:pointer}.primary-btn{min-height:44px;padding:0 12px;font-size:14px;background:linear-gradient(135deg,var(--rose),var(--peach));box-shadow:0 9px 20px rgba(255,145,168,.24)}.secondary-btn{min-height:44px;padding:0 12px;color:#72514d;font-size:14px;background:linear-gradient(135deg,#fff1ca,#dff4ff);box-shadow:0 9px 20px rgba(145,189,242,.16)}.list{display:grid;gap:8px;margin-top:10px}.soft-item{padding:10px 11px;border-radius:15px;color:#70524d;background:rgba(255,248,237,.78);border:1px solid rgba(255,204,178,.5);font-size:13px;line-height:1.5}.wish-item{display:flex;justify-content:space-between;align-items:center;gap:10px}.wish-item.done{opacity:.72;text-decoration:line-through}.mini-btn{min-height:31px;padding:0 10px;color:#fff;font-size:12px;background:linear-gradient(135deg,var(--mint),var(--sky));white-space:nowrap}.toast{position:fixed;left:50%;bottom:72px;z-index:8;width:min(calc(100% - 34px),340px);padding:12px 14px;border-radius:16px;color:#60443f;text-align:center;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(130,86,88,.2);transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:opacity .24s ease,transform .24s ease}.toast.show{opacity:1;transform:translate(-50%,0)}.nav{position:fixed;left:50%;bottom:12px;z-index:5;width:min(calc(100% - 26px),410px);display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:8px;border-radius:22px;background:rgba(255,255,255,.84);box-shadow:0 12px 30px rgba(130,86,88,.18);backdrop-filter:blur(14px);transform:translateX(-50%)}.nav a{min-height:38px;display:grid;place-items:center;border-radius:16px;color:#7b5b54;font-size:13px;font-weight:900;text-decoration:none}.nav a.active{color:#fff;background:linear-gradient(135deg,var(--rose),var(--peach))}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header><h1>回忆成长</h1><p class="subtitle">把慢慢变好的证据，放在这里。</p></header>
+    <section class="card">
+      <div class="section-title"><span id="otterLevel">🦦 小水獭 Lv1</span><span class="tiny" id="expText">0 经验</span></div>
+      <div class="progress-row"><span>共同经验条</span><span id="nextText">0 / 30</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </section>
+    <section class="card">
+      <div class="section-title"><span>留言胶囊</span><span class="tiny">到日期再打开</span></div>
+      <div class="form">
+        <div class="form-row"><select id="capsuleAuthor"><option value="鑫鑫">鑫鑫</option><option value="兴波">兴波</option></select><input id="capsuleDate" type="date"></div>
+        <textarea id="capsuleText" placeholder="写一句想留给对方的话"></textarea>
+        <button class="primary-btn" id="capsuleBtn" type="button">留下留言胶囊</button>
+      </div>
+      <div class="list" id="capsuleList"></div>
+    </section>
+    <section class="card">
+      <div class="section-title"><span>愿望星空</span><span class="tiny">最近 5 个愿望</span></div>
+      <div class="form"><input id="wishInput" type="text" placeholder="比如：想去海边"><button class="secondary-btn" id="wishBtn" type="button">写下一颗星星</button></div>
+      <div class="list" id="wishList"></div>
+    </section>
+    <section class="card">
+      <div class="section-title"><span>历史记录</span><span class="tiny">最近 5 条回忆</span></div>
+      <div class="list" id="timeline"></div>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <nav class="nav"><a href="index.html">首页</a><a href="island.html">今日</a><a class="active" href="memories.html">回忆</a></nav>
+  <script>
+    const keys={exp:"v3_sharedExp",petLevel:"v3_petLevel",capsules:"v3_capsules",wishes:"v3_wishes",timeline:"v3_timeline",opened:"v3_openedCapsules"};
+    const levels=[{level:1,need:0},{level:2,need:30},{level:3,need:80},{level:4,need:150},{level:5,need:250},{level:6,need:400}];
+    let exp=getNumber(keys.exp,0), capsules=getJson(keys.capsules,[]), wishes=getJson(keys.wishes,[]), timeline=getJson(keys.timeline,[]), opened=getJson(keys.opened,[]);
+    function getJson(k,f){try{return JSON.parse(localStorage.getItem(k))||f}catch{return f}} function getNumber(k,f){const v=Number(localStorage.getItem(k));return Number.isFinite(v)?v:f}
+    function todayKey(date=new Date()){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;}
+    function formatTime(date=new Date()){return `${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")} ${String(date.getHours()).padStart(2,"0")}:${String(date.getMinutes()).padStart(2,"0")}`;}
+    function save(){localStorage.setItem(keys.exp,String(exp));localStorage.setItem(keys.petLevel,String(level().level));localStorage.setItem(keys.capsules,JSON.stringify(capsules));localStorage.setItem(keys.wishes,JSON.stringify(wishes));localStorage.setItem(keys.timeline,JSON.stringify(timeline.slice(-30)));localStorage.setItem(keys.opened,JSON.stringify(opened));}
+    function level(){return levels.slice().reverse().find(l=>exp>=l.need)||levels[0]} function nextLevel(l){return levels.find(x=>x.level===l.level+1)||null}
+    function addMemory(title,text){timeline.push({title,text,time:formatTime(),id:Date.now()+Math.random()});save();}
+    function addExp(n,msg){exp+=n;save();toast(msg);render();}
+    function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),1600);}
+    function renderPet(){const lv=level(),next=nextLevel(lv);document.getElementById("otterLevel").textContent=`🦦 小水獭 Lv${lv.level}`;document.getElementById("expText").textContent=`${exp} 经验`;if(next){const pct=Math.max(0,Math.min(100,Math.round(((exp-lv.need)/(next.need-lv.need))*100)));document.getElementById("nextText").textContent=`${exp} / ${next.need}`;document.getElementById("progressFill").style.width=`${pct}%`;}else{document.getElementById("nextText").textContent=`${exp} / MAX`;document.getElementById("progressFill").style.width="100%";}}
+    function renderCapsules(){const box=document.getElementById("capsuleList");box.innerHTML="";const list=capsules.slice().sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).slice(0,5);if(!list.length){box.innerHTML='<div class="soft-item">还没有胶囊。想说的话，可以先轻轻放在这里。</div>';return;}list.forEach(c=>{const ready=c.openDate<=todayKey();if(ready&&!opened.includes(c.id)){opened.push(c.id);addMemory("胶囊开启",`${c.author} 的一颗胶囊可以打开了。`);save();}const item=document.createElement("div");item.className="soft-item";item.innerHTML=ready?`<strong>${c.author} 的胶囊</strong><br>${c.text}<br><span class="tiny">开启日期：${c.openDate}</span>`:`<strong>有一颗胶囊正在等待打开。</strong><br><span class="tiny">${c.author} 留下，${c.openDate} 开启</span>`;box.appendChild(item);});}
+    function renderWishes(){const box=document.getElementById("wishList");box.innerHTML="";const list=wishes.slice(-5).reverse();if(!list.length){box.innerHTML='<div class="soft-item">星空还空着。可以写下一个很小很小的愿望。</div>';return;}list.forEach(w=>{const item=document.createElement("div");item.className=`soft-item wish-item${w.done?" done":""}`;const text=document.createElement("span");text.textContent=`⭐ ${w.text}`;const btn=document.createElement("button");btn.className="mini-btn";btn.textContent=w.done?"已点亮":"点亮";btn.disabled=w.done;btn.onclick=()=>{w.done=true;addMemory("愿望点亮",`完成了愿望：${w.text}`);save();render();};item.append(text,btn);box.appendChild(item);});}
+    function renderTimeline(){const list=timeline.slice(-5).reverse();document.getElementById("timeline").innerHTML=list.length?list.map(i=>`<div class="soft-item"><strong>${i.title}</strong><br>${i.text}<br><span class="tiny">${i.time}</span></div>`).join(""):'<div class="soft-item">这里会慢慢收集你们的小瞬间。</div>';}
+    function render(){renderPet();renderCapsules();renderWishes();renderTimeline();}
+    document.getElementById("capsuleBtn").onclick=()=>{const text=document.getElementById("capsuleText").value.trim(), author=document.getElementById("capsuleAuthor").value, openDate=document.getElementById("capsuleDate").value||todayKey();if(!text){toast("先写一句想放进胶囊的话吧。");return;}capsules.push({id:Date.now()+Math.random(),text,author,openDate,createdAt:new Date().toISOString()});document.getElementById("capsuleText").value="";document.getElementById("capsuleDate").value="";addMemory("新增留言胶囊",`${author} 留下了一颗胶囊。`);save();addExp(10,"留言胶囊已收好，小水獭经验 +10。");};
+    document.getElementById("wishBtn").onclick=()=>{const text=document.getElementById("wishInput").value.trim();if(!text){toast("先写下一个小愿望吧。");return;}wishes.push({id:Date.now()+Math.random(),text,done:false,createdAt:new Date().toISOString()});document.getElementById("wishInput").value="";addMemory("新增愿望",`星空多了一颗：${text}`);save();addExp(10,"愿望变成星星啦，小水獭经验 +10。");};
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>今日小岛</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root { --ink:#60443f; --muted:#96736b; --rose:#ff91a8; --peach:#ffb77d; --mint:#95d9c1; --sky:#91bdf2; --card:rgba(255,255,255,.86); --line:rgba(255,201,171,.56); --shadow:0 18px 45px rgba(142,83,88,.2); }
+    body { min-height:100vh; min-height:100svh; margin:0; display:flex; justify-content:center; padding:max(16px, env(safe-area-inset-top)) 13px max(76px, env(safe-area-inset-bottom)); color:var(--ink); font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif; background:radial-gradient(circle at 18% 8%,rgba(255,230,170,.72),transparent 24%),radial-gradient(circle at 86% 16%,rgba(145,189,242,.42),transparent 28%),linear-gradient(160deg,#ffe3dc 0%,#fff7df 42%,#dff4ff 100%); overflow-x:hidden; }
+    .app { width:min(100%,410px); padding:21px 15px 18px; border:1px solid rgba(255,255,255,.75); border-radius:28px; background:rgba(255,255,255,.72); box-shadow:var(--shadow); backdrop-filter:blur(18px); }
+    header { text-align:center; padding:8px 6px 13px; } h1 { margin:0; color:#59415f; font-size:30px; letter-spacing:0; } .subtitle { margin:8px 0 0; color:var(--muted); font-size:15px; line-height:1.5; }
+    .card { margin-top:11px; padding:14px; border:1px solid var(--line); border-radius:22px; background:var(--card); box-shadow:0 12px 30px rgba(169,104,98,.12); }
+    .section-title { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; color:#6d4e49; font-size:15px; font-weight:900; }
+    .tiny { color:var(--muted); font-size:12px; font-weight:700; }
+    .status-grid { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    .person { padding:12px; border-radius:18px; background:rgba(255,248,237,.8); border:1px solid rgba(255,204,178,.58); }
+    .person-name { font-weight:900; color:#6e4b44; } .person-status { margin-top:8px; min-height:28px; color:#7b5b54; font-size:14px; font-weight:800; }
+    .status-options { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-top:10px; }
+    button { border:0; border-radius:999px; color:#fff; font-family:inherit; font-weight:900; letter-spacing:0; appearance:none; -webkit-appearance:none; touch-action:manipulation; cursor:pointer; transition:transform .16s ease; } button:active { transform:translateY(2px) scale(.99); }
+    .chip { min-height:36px; padding:0 8px; color:#79504b; font-size:12px; background:rgba(255,255,255,.78); border:1px solid rgba(255,196,165,.74); }
+    .chip.active { color:#fff; background:linear-gradient(135deg,var(--rose),var(--peach)); border-color:transparent; }
+    .otter-card { text-align:center; background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(255,250,242,.86)); }
+    .otter-orb { width:112px; height:112px; display:grid; place-items:center; margin:0 auto 8px; border-radius:50%; background:linear-gradient(145deg,rgba(255,232,198,.96),rgba(214,240,255,.9)); box-shadow:inset 0 -10px 22px rgba(145,189,242,.18); }
+    .otter { font-size:64px; transform-origin:center bottom; user-select:none; cursor:pointer; } .otter.jump { animation:hop .55s ease; }
+    @keyframes hop { 0%,100%{transform:translateY(0) scale(1)} 32%{transform:translateY(-12px) scale(1.05,.96)} 60%{transform:translateY(1px) scale(.98,1.03)} }
+    .main-actions { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:10px; }
+    .primary-btn { min-height:46px; padding:0 12px; font-size:14px; background:linear-gradient(135deg,var(--rose),var(--peach)); box-shadow:0 9px 20px rgba(255,145,168,.24); }
+    .secondary-btn { min-height:46px; padding:0 12px; color:#72514d; font-size:14px; background:linear-gradient(135deg,#fff1ca,#dff4ff); box-shadow:0 9px 20px rgba(145,189,242,.16); }
+    .soft { margin-top:10px; padding:11px 12px; border-radius:16px; color:#70524d; background:rgba(255,248,237,.78); border:1px solid rgba(255,204,178,.5); font-size:14px; line-height:1.5; }
+    .toast { position:fixed; left:50%; bottom:72px; z-index:8; width:min(calc(100% - 34px),340px); padding:12px 14px; border-radius:16px; color:#60443f; text-align:center; background:rgba(255,255,255,.94); box-shadow:0 12px 30px rgba(130,86,88,.2); transform:translate(-50%,20px); opacity:0; pointer-events:none; transition:opacity .24s ease, transform .24s ease; }
+    .toast.show { opacity:1; transform:translate(-50%,0); }
+    .nav { position:fixed; left:50%; bottom:12px; z-index:5; width:min(calc(100% - 26px),410px); display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:8px; border-radius:22px; background:rgba(255,255,255,.84); box-shadow:0 12px 30px rgba(130,86,88,.18); backdrop-filter:blur(14px); transform:translateX(-50%); }
+    .nav a { min-height:38px; display:grid; place-items:center; border-radius:16px; color:#7b5b54; font-size:13px; font-weight:900; text-decoration:none; } .nav a.active { color:#fff; background:linear-gradient(135deg,var(--rose),var(--peach)); }
+    @media (max-width:360px){ .status-options{grid-template-columns:repeat(2,1fr)} }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header><h1>今日小岛</h1><p class="subtitle">今天不用说很多，也能把状态轻轻放在这里。</p></header>
+    <section class="card">
+      <div class="section-title"><span>今日状态选择</span><span class="tiny" id="statusUpdated">未更新</span></div>
+      <div class="status-grid">
+        <div class="person"><div class="person-name">鑫鑫</div><div class="person-status" id="xinxinStatus">今日状态：未选择</div></div>
+        <div class="person"><div class="person-name">兴波</div><div class="person-status" id="xingboStatus">今日状态：未选择</div></div>
+      </div>
+      <div class="status-options" id="statusOptions"></div>
+    </section>
+    <section class="card otter-card">
+      <div class="otter-orb"><div class="otter" id="otter">🦦</div></div>
+      <div style="font-weight:900;color:#644a54" id="otterName">🦦 小水獭 Lv1</div>
+      <p class="tiny" id="touchLimit">今日摸摸经验：0 / 5</p>
+      <div class="main-actions">
+        <button class="primary-btn" id="touchOtterBtn" type="button">摸摸小水獭</button>
+        <button class="secondary-btn" id="roleToggleBtn" type="button">当前：鑫鑫</button>
+      </div>
+    </section>
+    <section class="card">
+      <div class="section-title"><span>今日小信号</span><span class="tiny">给彼此一点点确认</span></div>
+      <button class="secondary-btn" id="signalBtn" type="button">生成今日小信号</button>
+      <div class="soft" id="signalText">还没有小信号，点一下就好。</div>
+      <div class="soft" id="comfortText">愿今天的你们都被温柔接住。</div>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <nav class="nav"><a href="index.html">首页</a><a class="active" href="island.html">今日</a><a href="memories.html">回忆</a></nav>
+  <script>
+    const keys = { currentPerson:"v3_currentPerson", statuses:"v3_statuses", exp:"v3_sharedExp", petLevel:"v3_petLevel", touchDate:"v3_touchDate", touchExpToday:"v3_touchExpToday", timeline:"v3_timeline", signal:"v3_todaySignal" };
+    const levels = [{level:1,need:0},{level:2,need:30},{level:3,need:80},{level:4,need:150},{level:5,need:250},{level:6,need:400}];
+    const statusList = ["😊 开心","😐 一般","😭 有点累","🥱 想睡觉","🔥 状态很好","🌧️ 有点低落"];
+    const signals = ["今天也在同一座小岛上。","不用秒回，也一直在。","今天给彼此留一点安静的陪伴。","等忙完了，再慢慢靠近。","远一点也没关系，心可以近一点。"];
+    const comforts = ["辛苦的时候，可以先照顾好自己。","今天不用完美，也值得被喜欢。","慢慢来，你们已经很好了。","先把呼吸放轻一点。","愿今天有一小段时间属于你。"];
+    let currentPerson = localStorage.getItem(keys.currentPerson) || "鑫鑫";
+    let statuses = getJson(keys.statuses, {}), exp = getNumber(keys.exp, 0), touchDate = localStorage.getItem(keys.touchDate) || "", touchExp = getNumber(keys.touchExpToday, 0), timeline = getJson(keys.timeline, []);
+    function todayKey(date=new Date()){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;}
+    function formatTime(date=new Date()){return `${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")} ${String(date.getHours()).padStart(2,"0")}:${String(date.getMinutes()).padStart(2,"0")}`;}
+    function getJson(k,f){try{return JSON.parse(localStorage.getItem(k))||f}catch{return f}} function getNumber(k,f){const v=Number(localStorage.getItem(k));return Number.isFinite(v)?v:f}
+    function save(){localStorage.setItem(keys.currentPerson,currentPerson);localStorage.setItem(keys.statuses,JSON.stringify(statuses));localStorage.setItem(keys.exp,String(exp));localStorage.setItem(keys.petLevel,String(level().level));localStorage.setItem(keys.touchDate,touchDate);localStorage.setItem(keys.touchExpToday,String(touchExp));localStorage.setItem(keys.timeline,JSON.stringify(timeline.slice(-30)));}
+    function level(){return levels.slice().reverse().find(l=>exp>=l.need)||levels[0]} function addMemory(title,text){timeline.push({title,text,time:formatTime(),id:Date.now()+Math.random()});save();}
+    function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),1600);}
+    function addExp(n,msg){exp+=n; save(); toast(msg); render();}
+    function render(){ if(touchDate!==todayKey()){touchDate=todayKey();touchExp=0;save()} const lv=level(); document.getElementById("otterName").textContent=`🦦 小水獭 Lv${lv.level}`; document.getElementById("touchLimit").textContent=`今日摸摸经验：${touchExp} / 5`; document.getElementById("roleToggleBtn").textContent=`当前：${currentPerson}`; renderStatus(); const sig=getJson(keys.signal,null); if(sig?.date===todayKey()) document.getElementById("signalText").textContent=sig.text; }
+    function renderStatus(){document.getElementById("xinxinStatus").textContent=`今日状态：${statuses["鑫鑫"]?.date===todayKey()?statuses["鑫鑫"].status:"未选择"}`;document.getElementById("xingboStatus").textContent=`今日状态：${statuses["兴波"]?.date===todayKey()?statuses["兴波"].status:"未选择"}`; const updates=[statuses["鑫鑫"],statuses["兴波"]].filter(x=>x?.date===todayKey()).map(x=>x.updatedAt); document.getElementById("statusUpdated").textContent=updates.length?`今日更新时间：${updates[updates.length-1]}`:"今日更新时间：未更新"; const box=document.getElementById("statusOptions"); box.innerHTML=""; statusList.forEach(s=>{const b=document.createElement("button");b.className="chip";b.textContent=s;if(statuses[currentPerson]?.status===s&&statuses[currentPerson]?.date===todayKey())b.classList.add("active");b.onclick=()=>{const first=statuses[currentPerson]?.date!==todayKey();statuses[currentPerson]={status:s,date:todayKey(),updatedAt:formatTime()};addMemory("状态更新",`${currentPerson}：${s}`);save(); if(first)addExp(5,"状态已保存，小水獭经验 +5。"); else {toast("状态已更新。");render();}};box.appendChild(b);});}
+    document.getElementById("roleToggleBtn").onclick=()=>{currentPerson=currentPerson==="鑫鑫"?"兴波":"鑫鑫";save();render();toast(`已切换到：${currentPerson}`)};
+    document.getElementById("touchOtterBtn").onclick=()=>{document.getElementById("otter").classList.remove("jump");void document.getElementById("otter").offsetWidth;document.getElementById("otter").classList.add("jump"); if(touchExp<5){touchExp++;addExp(1,"小水獭被摸摸了，经验 +1。")}else{toast("今天摸摸的经验已经满啦。")}};
+    document.getElementById("otter").onclick=()=>document.getElementById("touchOtterBtn").click();
+    document.getElementById("signalBtn").onclick=()=>{const text=signals[Math.floor(Math.random()*signals.length)];localStorage.setItem(keys.signal,JSON.stringify({date:todayKey(),text}));document.getElementById("signalText").textContent=text;document.getElementById("comfortText").textContent=comforts[Math.floor(Math.random()*comforts.length)];toast("今日小信号已出现。")};
+    render();
+  </script>
+</body>
+</html>

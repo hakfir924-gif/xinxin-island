@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>双人小岛</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --ink: #60443f; --muted: #96736b; --rose: #ff91a8; --peach: #ffb77d;
+      --mint: #95d9c1; --sky: #91bdf2; --card: rgba(255,255,255,.86);
+      --line: rgba(255,201,171,.56); --shadow: 0 18px 45px rgba(142,83,88,.2);
+    }
+    body {
+      min-height: 100vh; min-height: 100svh; margin: 0; display: flex; justify-content: center;
+      padding: max(16px, env(safe-area-inset-top)) 13px max(76px, env(safe-area-inset-bottom));
+      color: var(--ink); font-family: "PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+      background: radial-gradient(circle at 18% 8%, rgba(255,230,170,.72), transparent 24%),
+        radial-gradient(circle at 86% 16%, rgba(145,189,242,.42), transparent 28%),
+        linear-gradient(160deg,#ffe3dc 0%,#fff7df 42%,#dff4ff 100%);
+      overflow-x: hidden;
+    }
+    .app { width: min(100%, 410px); position: relative; padding: 22px 15px 18px; border: 1px solid rgba(255,255,255,.75); border-radius: 28px; background: rgba(255,255,255,.72); box-shadow: var(--shadow); backdrop-filter: blur(18px); }
+    header { text-align: center; padding: 10px 6px 14px; }
+    h1 { margin: 0; color: #59415f; font-size: 32px; line-height: 1.14; letter-spacing: 0; }
+    .subtitle { margin: 9px 0 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
+    .card { margin-top: 12px; padding: 15px; border: 1px solid var(--line); border-radius: 22px; background: var(--card); box-shadow: 0 12px 30px rgba(169,104,98,.12); }
+    .days { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: linear-gradient(135deg, rgba(255,246,223,.92), rgba(230,246,255,.88)); }
+    .tiny { color: var(--muted); font-size: 12px; font-weight: 700; }
+    strong { color: #6a4b57; }
+    .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .person { padding: 12px; border-radius: 18px; background: rgba(255,248,237,.8); border: 1px solid rgba(255,204,178,.58); }
+    .person-name { font-weight: 900; color: #6e4b44; }
+    .person-status { margin-top: 8px; min-height: 28px; display: flex; align-items: center; color: #7b5b54; font-size: 14px; font-weight: 800; }
+    .enter { display: block; margin-top: 14px; min-height: 52px; border-radius: 999px; color: #fff; text-align: center; line-height: 52px; font-weight: 900; text-decoration: none; background: linear-gradient(135deg,var(--rose),var(--peach)); box-shadow: 0 10px 24px rgba(255,145,168,.24); }
+    .nav { position: fixed; left: 50%; bottom: 12px; z-index: 5; width: min(calc(100% - 26px), 410px); display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; padding: 8px; border-radius: 22px; background: rgba(255,255,255,.84); box-shadow: 0 12px 30px rgba(130,86,88,.18); backdrop-filter: blur(14px); transform: translateX(-50%); }
+    .nav a { min-height: 38px; display: grid; place-items: center; border-radius: 16px; color: #7b5b54; font-size: 13px; font-weight: 900; text-decoration: none; }
+    .nav a.active { color: #fff; background: linear-gradient(135deg,var(--rose),var(--peach)); }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>🌙 双人小岛</h1>
+      <p class="subtitle">即使隔着很远，也能一起慢慢变好。</p>
+    </header>
+
+    <section class="card days">
+      <div>
+        <div class="tiny">共同成长天数</div>
+        <strong id="islandDays">我们的小岛已经存在 1 天</strong>
+      </div>
+      <div>🌌</div>
+    </section>
+
+    <section class="card">
+      <div class="tiny">双方今日状态摘要</div>
+      <div class="status-grid" style="margin-top:10px">
+        <div class="person">
+          <div class="person-name">鑫鑫</div>
+          <div class="person-status" id="xinxinStatus">今日状态：未选择</div>
+        </div>
+        <div class="person">
+          <div class="person-name">兴波</div>
+          <div class="person-status" id="xingboStatus">今日状态：未选择</div>
+        </div>
+      </div>
+      <a class="enter" href="island.html">进入小岛</a>
+    </section>
+  </main>
+
+  <nav class="nav" aria-label="底部导航">
+    <a class="active" href="index.html">首页</a>
+    <a href="island.html">今日</a>
+    <a href="memories.html">回忆</a>
+  </nav>
+
+  <script>
+    const keys = { created: "v3_islandCreatedAt", statuses: "v3_statuses", timeline: "v3_timeline" };
+    function todayKey(date = new Date()) {
+      const y = date.getFullYear(), m = String(date.getMonth() + 1).padStart(2, "0"), d = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+    function getJson(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
+    }
+    function formatTime(date = new Date()) {
+      return `${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")} ${String(date.getHours()).padStart(2,"0")}:${String(date.getMinutes()).padStart(2,"0")}`;
+    }
+    if (!localStorage.getItem(keys.created)) {
+      localStorage.setItem(keys.created, todayKey());
+      localStorage.setItem(keys.timeline, JSON.stringify([{ title: "🌙 小岛创建", text: "双人小岛悄悄亮起来了。", time: formatTime(), id: Date.now() }]));
+    }
+    const created = localStorage.getItem(keys.created);
+    const days = Math.floor((new Date(`${todayKey()}T00:00:00`) - new Date(`${created}T00:00:00`)) / 86400000) + 1;
+    document.getElementById("islandDays").textContent = `我们的小岛已经存在 ${Math.max(1, days)} 天`;
+    const statuses = getJson(keys.statuses, {});
+    document.getElementById("xinxinStatus").textContent = `今日状态：${statuses["鑫鑫"]?.date === todayKey() ? statuses["鑫鑫"].status : "未选择"}`;
+    document.getElementById("xingboStatus").textContent = `今日状态：${statuses["兴波"]?.date === todayKey() ? statuses["兴波"].status : "未选择"}`;
+  </script>
+</body>
+</html>
